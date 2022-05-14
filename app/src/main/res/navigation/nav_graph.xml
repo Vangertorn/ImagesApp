@@ -3,11 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/splash">
 
     <fragment
-        android:id="@+id/splashFragment"
+        android:id="@+id/splash"
         android:name="com.vangertorn.imagesapp.presentation.splash.SplashFragment"
         android:label="SplashFragment"
-        tools:layout="@layout/fragment_splash" />
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/toHome"
+            app:destination="@id/home" />
+    </fragment>
+    <fragment
+        android:id="@+id/home"
+        android:name="com.vangertorn.imagesapp.presentation.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/toDetails"
+            app:destination="@id/details" />
+    </fragment>
+    <fragment
+        android:id="@+id/details"
+        android:name="com.vangertorn.imagesapp.presentation.details.DetailsFragment"
+        android:label="DetailsFragment"
+        tools:layout="@layout/fragment_details" />
 </navigation>

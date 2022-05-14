@@ -20,12 +20,12 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://api.some\"")
+            buildConfigField("String", "BASE_URL", "\"https://api.thecatapi.com/v1/images/\"")
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "BASE_URL", "\"https://api.some\"")
+            buildConfigField("String", "BASE_URL", "\"https://api.thecatapi.com/v1/images/\"")
         }
     }
     compileOptions {
