@@ -2,23 +2,17 @@ package com.vangertorn.imagesapp.presentation.splash
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.vangertorn.imagesapp.R
 import com.vangertorn.imagesapp.databinding.FragmentSplashBinding
 import com.vangertorn.imagesapp.util.SupportFragmentInset
-import by.kirich1409.viewbindingdelegate.viewBinding
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.vangertorn.imagesapp.GlideApp
-import com.vangertorn.imagesapp.domain.model.ImageModel
+import com.vangertorn.imagesapp.util.extension.goneUnless
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class SplashFragment : SupportFragmentInset<FragmentSplashBinding>(R.layout.fragment_splash) {
@@ -33,37 +27,40 @@ class SplashFragment : SupportFragmentInset<FragmentSplashBinding>(R.layout.frag
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getImage()
+        handleViewState()
 
-        fetchPraySchedules()
+        viewBinding.btnRetry.setOnClickListener {
+            viewModel.getImage()
+        }
     }
 
-    private fun fetchPraySchedules() {
+    private fun handleViewState() {
         lifecycleScope.launch {
             viewModel.uiState.collect { state ->
                 when (state) {
-                    is SplashViewModel.UiState.Loaded -> onLoaded(state.itemState)
+                    SplashViewModel.UiState.Loaded -> onLoaded()
                     is SplashViewModel.UiState.Error -> showError(state.message)
-                    else -> showLoading()
+                    SplashViewModel.UiState.Empty -> {}
+                    SplashViewModel.UiState.Loading -> onLoading()
                 }
             }
         }
     }
 
-    private fun onLoaded(image: ImageModel) {
-        image.run {
-            GlideApp
-                .with(requireContext())
-                .load(url)
-                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                .into(viewBinding.image)
-        }
+    private fun onLoading() {
+        viewBinding.errorState.goneUnless(false)
+        viewBinding.progressBar.goneUnless(true)
     }
 
-    private fun showLoading() {
-        Timber.d("showLoading")
+    private fun onLoaded() {
+        viewBinding.progressBar.goneUnless(false)
+        viewBinding.errorState.goneUnless(false)
+        findNavController().navigate(SplashFragmentDirections.toHome())
     }
 
     private fun showError(@StringRes stringRes: Int) {
-        Toast.makeText(requireContext(), stringRes, Toast.LENGTH_SHORT).show()
+        viewBinding.progressBar.goneUnless(false)
+        viewBinding.errorMessage.text = requireContext().getString(stringRes)
+        viewBinding.errorState.goneUnless(true)
     }
 }

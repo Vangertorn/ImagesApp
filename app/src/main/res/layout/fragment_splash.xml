@@ -1,20 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/ivLauncher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher_round"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/purple_700"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/ivLauncher"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8"
+        tools:visibility="visible" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/errorState"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:constraint_referenced_ids="errorMessage,btnRetry" />
+
+    <TextView
+        android:id="@+id/errorMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.Medium.16.Black"
+        app:layout_constraintTop_toBottomOf="@id/ivLauncher"
+        tools:text="Could you chek internet connection" />
 
     <Button
-        android:id="@+id/btn_update"
+        android:id="@+id/btnRetry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Update"
-        app:layout_constraintTop_toBottomOf="@id/image" />
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginVertical="32dp"
+        android:text="@string/btn_retry"
+        android:textAllCaps="false"
+        android:textAppearance="@style/TextAppearance.ExtraBold.16.White"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/errorMessage"
+        app:layout_constraintVertical_bias="1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
