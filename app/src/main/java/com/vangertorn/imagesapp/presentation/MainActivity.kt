@@ -6,6 +6,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.vangertorn.imagesapp.R
 import com.vangertorn.imagesapp.databinding.ActivityMainBinding
 import com.vangertorn.imagesapp.util.SupportActivityInset
+import com.vangertorn.imagesapp.util.setWindowTransparency
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,9 +22,20 @@ class MainActivity : SupportActivityInset<ActivityMainBinding>() {
 
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+
+        setWindowTransparency(this)
     }
 
     override fun getActiveFragment(): Fragment? {
         return navHostFragment.childFragmentManager.fragments[0]
+    }
+
+    override fun onBackPressed() {
+        if (navHostFragment.childFragmentManager.backStackEntryCount == 0){
+            finish()
+        }else{
+            navHostFragment.navController.popBackStack()
+        }
+
     }
 }

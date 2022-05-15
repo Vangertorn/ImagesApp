@@ -17,4 +17,8 @@ class LocalImagesData @Inject constructor(
     override suspend fun addImages(images: List<ImageModel>) {
         db.addImages(images.toEntity())
     }
+
+    override suspend fun changeFavorite(imageId: String, isFavorite: Boolean): List<ImageModel> {
+        return db.changeFavorite(imageId, !isFavorite).toModel()
+    }
 }

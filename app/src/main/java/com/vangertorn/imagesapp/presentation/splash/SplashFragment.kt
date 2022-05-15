@@ -11,6 +11,7 @@ import com.vangertorn.imagesapp.R
 import com.vangertorn.imagesapp.databinding.FragmentSplashBinding
 import com.vangertorn.imagesapp.util.SupportFragmentInset
 import com.vangertorn.imagesapp.util.extension.goneUnless
+import com.vangertorn.imagesapp.util.extension.setVerticalMargin
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -21,16 +22,17 @@ class SplashFragment : SupportFragmentInset<FragmentSplashBinding>(R.layout.frag
     private val viewModel: SplashViewModel by viewModels()
 
     override fun onInsetsReceived(top: Int, bottom: Int, hasKeyboard: Boolean) {
+        viewBinding.btnRetry.setVerticalMargin(marginBottom = bottom)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getImage()
+        viewModel.checkDataExist()
         handleViewState()
 
         viewBinding.btnRetry.setOnClickListener {
-            viewModel.getImage()
+            viewModel.checkDataExist()
         }
     }
 

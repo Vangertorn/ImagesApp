@@ -22,8 +22,7 @@ class SplashViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<UiState>(UiState.Empty)
     val uiState: StateFlow<UiState> = _uiState
 
-    fun getImage() {
-
+    fun checkDataExist() {
         viewModelScope.launch(Dispatchers.IO) {
             _uiState.value = UiState.Loading
             try {

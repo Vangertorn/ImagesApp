@@ -8,12 +8,16 @@ import javax.inject.Inject
 
 class NetworkImagesData @Inject constructor(
     private val api: ImageApi
-): ImagesData {
+) : ImagesData {
     override suspend fun getImages(): List<ImageModel> {
-        return api.getRandomImage().toModelFromDTO()
+        return api.getRandomImages(limit = 10).toModelFromDTO()
     }
 
     override suspend fun addImages(images: List<ImageModel>) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun changeFavorite(imageId: String, isFavorite: Boolean): List<ImageModel> {
         TODO("Not yet implemented")
     }
 }

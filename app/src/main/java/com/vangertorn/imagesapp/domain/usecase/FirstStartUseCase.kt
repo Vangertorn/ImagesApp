@@ -4,7 +4,7 @@ import com.vangertorn.imagesapp.domain.repository.ImageRepository
 import javax.inject.Inject
 
 class FirstStartUseCase @Inject constructor(
-    private val imageRepository: ImageRepository,
+    private val imageRepository: ImageRepository
 ) {
     suspend fun execute() {
         if (imageRepository.getImagesFromLocal().isEmpty()) {

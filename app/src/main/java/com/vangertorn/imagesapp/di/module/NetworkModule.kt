@@ -3,6 +3,7 @@ package com.vangertorn.imagesapp.di.module
 import android.content.Context
 import android.net.ConnectivityManager
 import com.vangertorn.imagesapp.BuildConfig
+import com.vangertorn.imagesapp.data.network.interseptors.AuthInterceptor
 import com.vangertorn.imagesapp.data.network.state.NetworkState
 import com.vangertorn.imagesapp.data.network.state.NetworkStateImpl
 import dagger.Module
@@ -22,13 +23,14 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.BODY
                 }
             )
+            .addInterceptor(authInterceptor)
             .build()
     }
 
