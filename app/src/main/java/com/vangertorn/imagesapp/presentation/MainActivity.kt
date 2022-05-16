@@ -2,6 +2,7 @@ package com.vangertorn.imagesapp.presentation
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.vangertorn.imagesapp.R
 import com.vangertorn.imagesapp.databinding.ActivityMainBinding
@@ -16,6 +17,7 @@ class MainActivity : SupportActivityInset<ActivityMainBinding>() {
     private val navHostFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
     }
+    private val navController: NavController by lazy { navHostFragment.navController }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,16 +28,15 @@ class MainActivity : SupportActivityInset<ActivityMainBinding>() {
         setWindowTransparency(this)
     }
 
-    override fun getActiveFragment(): Fragment? {
-        return navHostFragment.childFragmentManager.fragments[0]
+    override fun onBackPressed() {
+        if (navHostFragment.childFragmentManager.backStackEntryCount == 0) {
+            finish()
+        } else {
+            navController.popBackStack()
+        }
     }
 
-    override fun onBackPressed() {
-        if (navHostFragment.childFragmentManager.backStackEntryCount == 0){
-            finish()
-        }else{
-            navHostFragment.navController.popBackStack()
-        }
-
+    override fun getActiveFragment(): Fragment? {
+        return navHostFragment.childFragmentManager.fragments[0]
     }
 }

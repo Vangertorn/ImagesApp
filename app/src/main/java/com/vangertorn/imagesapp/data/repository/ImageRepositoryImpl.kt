@@ -25,4 +25,8 @@ class ImageRepositoryImpl @Inject constructor(
     override suspend fun changeFavorite(imageId: String, isFavorite: Boolean): List<ImageModel> {
         return dataSourceFactory.create(Source.LOCAL).changeFavorite(imageId, isFavorite)
     }
+
+    override suspend fun getDetails(imageId: String): ImageModel {
+       return dataSourceFactory.create(Source.NETWORK).getDetails(imageId)
+    }
 }

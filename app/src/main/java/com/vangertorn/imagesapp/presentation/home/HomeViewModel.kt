@@ -7,7 +7,6 @@ import com.vangertorn.imagesapp.domain.model.ImageModel
 import com.vangertorn.imagesapp.domain.usecase.ChangeFavoriteUseCase
 import com.vangertorn.imagesapp.domain.usecase.GetImagesUseCase
 import com.vangertorn.imagesapp.presentation.home.adapter.ImageAdapter
-import com.vangertorn.imagesapp.presentation.splash.SplashViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

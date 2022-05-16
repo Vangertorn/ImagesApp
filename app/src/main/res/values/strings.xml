@@ -8,4 +8,9 @@
 
     //Button
     <string name="btn_retry">Retry</string>
+
+    //Details screen
+    <string name="details_description">Details description</string>
+    <string name="details_width">Width: %1$s</string>
+    <string name="details_height">Height: %1$s</string>
 </resources>

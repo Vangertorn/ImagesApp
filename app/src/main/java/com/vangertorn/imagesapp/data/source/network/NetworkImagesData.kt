@@ -1,5 +1,6 @@
 package com.vangertorn.imagesapp.data.source.network
 
+import com.vangertorn.imagesapp.data.mapper.toModel
 import com.vangertorn.imagesapp.data.mapper.toModelFromDTO
 import com.vangertorn.imagesapp.data.network.api.ImageApi
 import com.vangertorn.imagesapp.data.source.ImagesData
@@ -19,5 +20,9 @@ class NetworkImagesData @Inject constructor(
 
     override suspend fun changeFavorite(imageId: String, isFavorite: Boolean): List<ImageModel> {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun getDetails(imageId: String): ImageModel {
+        return api.getDetails(imageId).toModel()
     }
 }

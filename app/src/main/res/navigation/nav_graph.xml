@@ -14,7 +14,7 @@
             android:id="@+id/toHome"
             app:destination="@id/home"
             app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/home"
@@ -23,7 +23,7 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/toDetails"
-            app:destination="@id/details" />
+            app:destination="@id/details"/>
     </fragment>
     <fragment
         android:id="@+id/details"

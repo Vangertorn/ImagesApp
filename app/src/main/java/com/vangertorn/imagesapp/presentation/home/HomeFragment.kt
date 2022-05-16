@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
@@ -25,6 +26,7 @@ class HomeFragment : SupportFragmentInset<FragmentHomeBinding>(R.layout.fragment
 
     override val viewBinding: FragmentHomeBinding by viewBinding()
     private val viewModel: HomeViewModel by viewModels()
+    private lateinit var navController: NavController
     private lateinit var adapter: ImageAdapter
 
     override fun onInsetsReceived(top: Int, bottom: Int, hasKeyboard: Boolean) {
@@ -35,6 +37,7 @@ class HomeFragment : SupportFragmentInset<FragmentHomeBinding>(R.layout.fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        navController = findNavController()
         adapter = ImageAdapter(viewModel)
 
         handleViewState()
@@ -62,6 +65,8 @@ class HomeFragment : SupportFragmentInset<FragmentHomeBinding>(R.layout.fragment
     }
 
     private fun onNavigate(imageId: String) {
-        findNavController().navigate(HomeFragmentDirections.toDetails(imageId))
+        val bundle = Bundle()
+        bundle.putString("imageId", imageId)
+        navController.navigate(R.id.toDetails, bundle)
     }
 }

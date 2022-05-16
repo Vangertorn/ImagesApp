@@ -21,4 +21,8 @@ class LocalImagesData @Inject constructor(
     override suspend fun changeFavorite(imageId: String, isFavorite: Boolean): List<ImageModel> {
         return db.changeFavorite(imageId, !isFavorite).toModel()
     }
+
+    override suspend fun getDetails(imageId: String): ImageModel {
+        TODO("Not yet implemented")
+    }
 }

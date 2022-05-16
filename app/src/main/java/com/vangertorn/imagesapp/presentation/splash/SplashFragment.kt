@@ -5,6 +5,7 @@ import android.view.View
 import androidx.annotation.StringRes
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.vangertorn.imagesapp.R
@@ -20,6 +21,7 @@ class SplashFragment : SupportFragmentInset<FragmentSplashBinding>(R.layout.frag
 
     override val viewBinding: FragmentSplashBinding by viewBinding()
     private val viewModel: SplashViewModel by viewModels()
+    private lateinit var navController: NavController
 
     override fun onInsetsReceived(top: Int, bottom: Int, hasKeyboard: Boolean) {
         viewBinding.btnRetry.setVerticalMargin(marginBottom = bottom)
@@ -28,6 +30,7 @@ class SplashFragment : SupportFragmentInset<FragmentSplashBinding>(R.layout.frag
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        navController = findNavController()
         viewModel.checkDataExist()
         handleViewState()
 
@@ -57,7 +60,7 @@ class SplashFragment : SupportFragmentInset<FragmentSplashBinding>(R.layout.frag
     private fun onLoaded() {
         viewBinding.progressBar.goneUnless(false)
         viewBinding.errorState.goneUnless(false)
-        findNavController().navigate(SplashFragmentDirections.toHome())
+        navController.navigate(SplashFragmentDirections.toHome())
     }
 
     private fun showError(@StringRes stringRes: Int) {

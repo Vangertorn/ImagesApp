@@ -14,4 +14,9 @@ interface ImageApi {
     suspend fun getRandomImages(
         @Query("limit") limit: Int
     ): List<ImageDTO>
+
+    @GET("/v1/images/{id}")
+    suspend fun getDetails(
+        @Path("id") id: String
+    ): ImageDTO
 }

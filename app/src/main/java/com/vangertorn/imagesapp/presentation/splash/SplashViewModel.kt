@@ -38,7 +38,7 @@ class SplashViewModel @Inject constructor(
         object Empty : UiState()
         object Loading : UiState()
         object Loaded : UiState()
-        class Error(@StringRes val message: Int) : UiState()
+        data class Error(@StringRes val message: Int) : UiState()
     }
 }
 

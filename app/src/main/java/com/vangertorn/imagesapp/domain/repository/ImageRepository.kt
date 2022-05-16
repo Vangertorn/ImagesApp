@@ -11,4 +11,6 @@ interface ImageRepository {
     suspend fun addImages(images: List<ImageModel>)
 
     suspend fun changeFavorite(imageId: String, isFavorite: Boolean): List<ImageModel>
+
+    suspend fun getDetails(imageId: String): ImageModel
 }
