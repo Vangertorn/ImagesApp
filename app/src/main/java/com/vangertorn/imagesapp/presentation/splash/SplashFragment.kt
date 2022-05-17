@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -12,9 +11,10 @@ import com.vangertorn.imagesapp.R
 import com.vangertorn.imagesapp.databinding.FragmentSplashBinding
 import com.vangertorn.imagesapp.util.SupportFragmentInset
 import com.vangertorn.imagesapp.util.extension.goneUnless
+import com.vangertorn.imagesapp.util.extension.launchWhenStarted
 import com.vangertorn.imagesapp.util.extension.setVerticalMargin
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class SplashFragment : SupportFragmentInset<FragmentSplashBinding>(R.layout.fragment_splash) {
@@ -32,23 +32,22 @@ class SplashFragment : SupportFragmentInset<FragmentSplashBinding>(R.layout.frag
 
         navController = findNavController()
         viewModel.checkDataExist()
-        handleViewState()
+        viewModel.state
+            .onEach(::handleViewState)
+            .launchWhenStarted(viewLifecycleOwner)
 
         viewBinding.btnRetry.setOnClickListener {
             viewModel.checkDataExist()
         }
     }
 
-    private fun handleViewState() {
-        lifecycleScope.launch {
-            viewModel.uiState.collect { state ->
-                when (state) {
-                    SplashViewModel.UiState.Loaded -> onLoaded()
-                    is SplashViewModel.UiState.Error -> showError(state.message)
-                    SplashViewModel.UiState.Empty -> {}
-                    SplashViewModel.UiState.Loading -> onLoading()
-                }
-            }
+    private fun handleViewState(state: SplashViewModel.UiState) {
+
+        when (state) {
+            SplashViewModel.UiState.Loaded -> onLoaded()
+            is SplashViewModel.UiState.Error -> showError(state.message)
+            SplashViewModel.UiState.Empty -> {}
+            SplashViewModel.UiState.Loading -> onLoading()
         }
     }
 

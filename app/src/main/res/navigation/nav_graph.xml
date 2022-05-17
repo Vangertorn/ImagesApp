@@ -23,13 +23,13 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/toDetails"
-            app:destination="@id/details"/>
+            app:destination="@id/details" />
     </fragment>
     <fragment
         android:id="@+id/details"
         android:name="com.vangertorn.imagesapp.presentation.details.DetailsFragment"
         android:label="DetailsFragment"
-        tools:layout="@layout/fragment_details" >
+        tools:layout="@layout/fragment_details">
         <argument
             android:name="imageId"
             app:argType="string" />

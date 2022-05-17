@@ -10,7 +10,7 @@ class FirstStartUseCase @Inject constructor(
         if (imageRepository.getImagesFromLocal().isEmpty()) {
             val images = imageRepository.getImagesFromNetwork()
             if (images.isNotEmpty()) {
-                imageRepository.addImages(images)
+                imageRepository.saveImagesDatabase(images)
             }
         }
     }

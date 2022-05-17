@@ -1,6 +1,7 @@
 package com.vangertorn.imagesapp.data.database.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -23,5 +24,13 @@ interface ImageDao {
     fun changeFavorite(imageId: String, isNewFavorite: Boolean): List<ImageEntity> {
         switchFavorite(imageId, isNewFavorite)
         return getImages()
+    }
+    @Query("DELETE FROM image")
+    fun clearImage()
+
+    @Transaction
+    fun saveImagesDatabase(images: List<ImageEntity>){
+        clearImage()
+        addImages(images)
     }
 }

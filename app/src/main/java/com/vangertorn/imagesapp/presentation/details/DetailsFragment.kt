@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -15,8 +14,9 @@ import com.vangertorn.imagesapp.databinding.FragmentDetailsBinding
 import com.vangertorn.imagesapp.domain.model.ImageModel
 import com.vangertorn.imagesapp.util.SupportFragmentInset
 import com.vangertorn.imagesapp.util.extension.goneUnless
+import com.vangertorn.imagesapp.util.extension.launchWhenStarted
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class DetailsFragment : SupportFragmentInset<FragmentDetailsBinding>(R.layout.fragment_details) {
@@ -34,8 +34,12 @@ class DetailsFragment : SupportFragmentInset<FragmentDetailsBinding>(R.layout.fr
         super.onViewCreated(view, savedInstanceState)
 
         navController = findNavController()
+
         viewModel.getDetails()
-        handleViewState()
+
+        viewModel.state
+            .onEach(::handleViewState)
+            .launchWhenStarted(viewLifecycleOwner)
 
         viewBinding.btnRetry.setOnClickListener {
             viewModel.getDetails()
@@ -45,16 +49,12 @@ class DetailsFragment : SupportFragmentInset<FragmentDetailsBinding>(R.layout.fr
         }
     }
 
-    private fun handleViewState() {
-        lifecycleScope.launch {
-            viewModel.uiState.collect { state ->
-                when (state) {
-                    is DetailsViewModel.UiState.Loaded -> onLoaded(state.image)
-                    is DetailsViewModel.UiState.Error -> showError(state.message)
-                    DetailsViewModel.UiState.Empty -> {}
-                    DetailsViewModel.UiState.Loading -> onLoading()
-                }
-            }
+    private fun handleViewState(state: DetailsViewModel.UiState) {
+        when (state) {
+            is DetailsViewModel.UiState.Loaded -> onLoaded(state.image)
+            is DetailsViewModel.UiState.Error -> showError(state.message)
+            DetailsViewModel.UiState.Empty -> {}
+            DetailsViewModel.UiState.Loading -> onLoading()
         }
     }
 
@@ -72,7 +72,7 @@ class DetailsFragment : SupportFragmentInset<FragmentDetailsBinding>(R.layout.fr
             requireContext().getString(R.string.details_height, image.height)
         viewBinding.tvWidth.text =
             requireContext().getString(R.string.details_width, image.width)
-        viewBinding.ivContent.goneUnless(true)
+        viewBinding.successState.goneUnless(true)
     }
 
     private fun onLoading() {

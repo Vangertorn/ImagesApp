@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vangertorn.imagesapp.domain.model.ImageModel
 import com.vangertorn.imagesapp.domain.usecase.GetDetailsUseCase
-import com.vangertorn.imagesapp.presentation.splash.SplashViewModel
 import com.vangertorn.imagesapp.util.extension.ExceptionParser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,19 +25,18 @@ class DetailsViewModel @Inject constructor(
         "DetailsFragment requires argument `imageId` of type String"
     }
 
-    private val _uiState = MutableStateFlow<UiState>(UiState.Empty)
-    val uiState: StateFlow<UiState> = _uiState
+    private val _state = MutableStateFlow<UiState>(UiState.Empty)
+    val state: StateFlow<UiState> = _state
 
     fun getDetails() {
         viewModelScope.launch {
-            _uiState.value = UiState.Loading
+            _state.value = UiState.Loading
             try {
                 val image = getDetailsUseCase.execute(imageId)
-                _uiState.value = UiState.Loaded(image)
+                _state.value = UiState.Loaded(image)
             } catch (error: Exception) {
-                _uiState.value = UiState.Error(ExceptionParser.getMessage(error))
+                _state.value = UiState.Error(ExceptionParser.getMessage(error))
             }
-
         }
     }
 

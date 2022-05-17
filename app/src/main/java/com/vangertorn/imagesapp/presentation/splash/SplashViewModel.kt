@@ -4,11 +4,11 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vangertorn.imagesapp.data.network.state.NetworkState
-import com.vangertorn.imagesapp.domain.model.ImageModel
 import com.vangertorn.imagesapp.domain.usecase.FirstStartUseCase
 import com.vangertorn.imagesapp.util.extension.ExceptionParser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -19,17 +19,17 @@ class SplashViewModel @Inject constructor(
     private val firstStartUseCase: FirstStartUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<UiState>(UiState.Empty)
-    val uiState: StateFlow<UiState> = _uiState
+    private val _state = MutableStateFlow<UiState>(UiState.Empty)
+    val state: StateFlow<UiState> = _state
 
     fun checkDataExist() {
         viewModelScope.launch(Dispatchers.IO) {
-            _uiState.value = UiState.Loading
+            _state.value = UiState.Loading
             try {
                 firstStartUseCase.execute()
-                _uiState.value = UiState.Loaded
+                _state.value = UiState.Loaded
             } catch (error: Exception) {
-                _uiState.value = UiState.Error(ExceptionParser.getMessage(error))
+                _state.value = UiState.Error(ExceptionParser.getMessage(error))
             }
         }
     }

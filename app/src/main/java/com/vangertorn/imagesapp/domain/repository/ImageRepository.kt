@@ -8,7 +8,7 @@ interface ImageRepository {
 
     suspend fun getImagesFromLocal(): List<ImageModel>
 
-    suspend fun addImages(images: List<ImageModel>)
+    suspend fun saveImagesDatabase(images: List<ImageModel>)
 
     suspend fun changeFavorite(imageId: String, isFavorite: Boolean): List<ImageModel>
 

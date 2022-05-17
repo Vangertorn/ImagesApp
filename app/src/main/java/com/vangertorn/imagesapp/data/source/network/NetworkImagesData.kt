@@ -14,7 +14,7 @@ class NetworkImagesData @Inject constructor(
         return api.getRandomImages(limit = 10).toModelFromDTO()
     }
 
-    override suspend fun addImages(images: List<ImageModel>) {
+    override suspend fun saveImagesDatabase(images: List<ImageModel>) {
         TODO("Not yet implemented")
     }
 
