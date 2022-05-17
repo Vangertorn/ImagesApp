@@ -4,10 +4,10 @@ import com.vangertorn.imagesapp.domain.model.ImageModel
 import com.vangertorn.imagesapp.domain.repository.ImageRepository
 import javax.inject.Inject
 
-class GetDetailsUseCase @Inject constructor(
+class GetFavoriteImagesUseCase@Inject constructor(
     private val imageRepository: ImageRepository
 ) {
-    suspend fun execute(imageId: String): ImageModel {
-        return imageRepository.getDetails(imageId)
+    suspend fun execute(): List<ImageModel> {
+        return imageRepository.getFavoriteImages()
     }
 }

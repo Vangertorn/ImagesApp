@@ -7,22 +7,18 @@ import com.vangertorn.imagesapp.R
 import com.vangertorn.imagesapp.data.network.state.NetworkState
 import com.vangertorn.imagesapp.domain.model.ImageModel
 import com.vangertorn.imagesapp.domain.usecase.ChangeFavoriteUseCase
+import com.vangertorn.imagesapp.domain.usecase.GetFavoriteImagesUseCase
 import com.vangertorn.imagesapp.domain.usecase.GetImagesUseCase
 import com.vangertorn.imagesapp.domain.usecase.GetRandomImagesUseCase
 import com.vangertorn.imagesapp.presentation.home.adapter.ImageAdapter
-import com.vangertorn.imagesapp.presentation.splash.SplashViewModel
 import com.vangertorn.imagesapp.util.extension.ExceptionParser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,7 +28,8 @@ class HomeViewModel @Inject constructor(
     private val getImagesUseCase: GetImagesUseCase,
     private val changeFavoriteUseCase: ChangeFavoriteUseCase,
     private val getRandomImagesUseCase: GetRandomImagesUseCase,
-    private val networkState: NetworkState
+    private val getFavoriteImagesUseCase: GetFavoriteImagesUseCase,
+    networkState: NetworkState
 ) : ViewModel(), ImageAdapter.Callbacks {
 
     private val _state = MutableStateFlow<UiState>(UiState.Empty)
@@ -49,8 +46,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            val images = getImagesUseCase.execute()
-            _state.emit(UiState.Loaded(images))
+            getImagesFromCash()
         }
     }
 
@@ -63,7 +59,7 @@ class HomeViewModel @Inject constructor(
     override fun onFavoriteClicked(imageId: String, isFavorite: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             val images = changeFavoriteUseCase.execute(imageId, isFavorite)
-            _state.emit(UiState.Loaded(images))
+            _state.emit(UiState.Loaded(images = images, isShowFavorite = false))
         }
     }
 
@@ -73,7 +69,7 @@ class HomeViewModel @Inject constructor(
             try {
                 val image = getRandomImagesUseCase.execute()
                 image?.let {
-                    _state.value = UiState.Loaded(it)
+                    _state.value = UiState.Loaded(images = it, isShowFavorite = false)
                 } ?: run { _state.value = UiState.Error(R.string.error_empty_list) }
             } catch (error: Exception) {
                 _state.value = UiState.Error(ExceptionParser.getMessage(error))
@@ -81,11 +77,29 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun onFavoriteListClicked() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val isShowFavorite = !state.value.let {
+                (it as? UiState.Loaded)?.isShowFavorite?:true
+            }
+            if (isShowFavorite) {
+                val images = getFavoriteImagesUseCase.execute()
+                _state.emit(UiState.Loaded(images = images, isShowFavorite = true))
+            } else {
+                getImagesFromCash()
+            }
+        }
+    }
+
+    private suspend fun getImagesFromCash() {
+        val images = getImagesUseCase.execute()
+        _state.emit(UiState.Loaded(images, isShowFavorite = false))
+    }
+
     sealed class UiState {
         object Empty : UiState()
         object Loading : UiState()
-        data class Loaded(val images: List<ImageModel>) : UiState()
-        data class LoadedFavorite(val images: List<ImageModel>) : UiState()
+        data class Loaded(val images: List<ImageModel>, val isShowFavorite: Boolean) : UiState()
         data class Error(@StringRes val message: Int) : UiState()
     }
 

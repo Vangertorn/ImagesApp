@@ -11,4 +11,6 @@ interface ImagesData {
     suspend fun changeFavorite(imageId: String, isFavorite: Boolean): List<ImageModel>
 
     suspend fun getDetails(imageId: String): ImageModel
+
+    suspend fun getFavoriteImages(): List<ImageModel>
 }

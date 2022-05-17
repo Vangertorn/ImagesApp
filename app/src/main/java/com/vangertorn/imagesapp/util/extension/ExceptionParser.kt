@@ -9,7 +9,7 @@ object ExceptionParser {
     fun getMessage(exception: Exception): Int {
         return when (exception) {
             is HttpException -> getHttpErrorMessage(exception)
-            is UnknownHostException-> internetConnectionError()
+            is UnknownHostException -> internetConnectionError()
             else -> generalError()
         }
     }

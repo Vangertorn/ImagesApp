@@ -3,11 +3,11 @@ package com.vangertorn.imagesapp.data.network.state
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
+import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.net.NetworkRequest
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
-import kotlinx.coroutines.channels.awaitClose
 
 class NetworkStateImpl(
     private val connectivityManager: ConnectivityManager

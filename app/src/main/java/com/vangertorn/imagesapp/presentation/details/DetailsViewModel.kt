@@ -40,6 +40,10 @@ class DetailsViewModel @Inject constructor(
         }
     }
 
+    fun getUri(): String {
+        return state.value.let { (it as? UiState.Loaded)?.image?.url ?: "" }
+    }
+
     sealed class UiState {
         object Empty : UiState()
         object Loading : UiState()

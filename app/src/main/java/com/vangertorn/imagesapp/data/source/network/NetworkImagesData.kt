@@ -25,4 +25,8 @@ class NetworkImagesData @Inject constructor(
     override suspend fun getDetails(imageId: String): ImageModel {
         return api.getDetails(imageId).toModel()
     }
+
+    override suspend fun getFavoriteImages(): List<ImageModel> {
+        TODO("Not yet implemented")
+    }
 }

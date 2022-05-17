@@ -10,5 +10,6 @@ data class ImageEntity(
     val url: String,
     val width: String,
     val height: String,
-    val isFavorite: Boolean = false
+    val isFavorite: Boolean = false,
+    val isCurrentUpdate: Boolean = true
 )

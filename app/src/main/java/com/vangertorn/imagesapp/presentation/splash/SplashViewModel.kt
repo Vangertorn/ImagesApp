@@ -3,12 +3,10 @@ package com.vangertorn.imagesapp.presentation.splash
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vangertorn.imagesapp.data.network.state.NetworkState
 import com.vangertorn.imagesapp.domain.usecase.FirstStartUseCase
 import com.vangertorn.imagesapp.util.extension.ExceptionParser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -41,4 +39,3 @@ class SplashViewModel @Inject constructor(
         data class Error(@StringRes val message: Int) : UiState()
     }
 }
-

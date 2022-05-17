@@ -3,6 +3,7 @@ package com.vangertorn.imagesapp.presentation.home
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -51,7 +52,7 @@ class HomeFragment : SupportFragmentInset<FragmentHomeBinding>(R.layout.fragment
         viewBinding.rvListImages.adapter = adapter
 
         viewBinding.btnFavorites.setOnClickListener {
-
+            viewModel.onFavoriteListClicked()
         }
 
         viewBinding.btnUpdate.setOnClickListener {
@@ -66,17 +67,16 @@ class HomeFragment : SupportFragmentInset<FragmentHomeBinding>(R.layout.fragment
         }
     }
 
-    private fun handleInternetState(isConnected: Boolean){
+    private fun handleInternetState(isConnected: Boolean) {
         viewBinding.btnUpdate.isClickable = isConnected
     }
 
     private fun handleViewState(state: HomeViewModel.UiState) {
         when (state) {
-            is HomeViewModel.UiState.Loaded -> onLoaded(state.images)
+            is HomeViewModel.UiState.Loaded -> onLoaded(state.images, state.isShowFavorite)
             is HomeViewModel.UiState.Error -> showError(state.message)
             HomeViewModel.UiState.Empty -> {}
             HomeViewModel.UiState.Loading -> onLoading()
-            is HomeViewModel.UiState.LoadedFavorite -> TODO()
         }
     }
 
@@ -86,8 +86,14 @@ class HomeFragment : SupportFragmentInset<FragmentHomeBinding>(R.layout.fragment
         viewBinding.rvListImages.goneUnless(false)
     }
 
-    private fun onLoaded(images: List<ImageModel>) {
+    private fun onLoaded(images: List<ImageModel>, isShowFavorite: Boolean) {
         adapter.submitList(images)
+        val drawable = if (isShowFavorite) {
+            AppCompatResources.getDrawable(requireContext(), R.drawable.ic_favorite_active)
+        } else {
+            AppCompatResources.getDrawable(requireContext(), R.drawable.ic_favorite_inactive)
+        }
+        viewBinding.btnFavorites.setImageDrawable(drawable)
         viewBinding.progressBar.goneUnless(false)
         viewBinding.errorState.goneUnless(false)
         viewBinding.rvListImages.goneUnless(true)

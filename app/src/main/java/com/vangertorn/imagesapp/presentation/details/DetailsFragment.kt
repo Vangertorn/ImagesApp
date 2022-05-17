@@ -1,5 +1,6 @@
 package com.vangertorn.imagesapp.presentation.details
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
@@ -46,6 +47,14 @@ class DetailsFragment : SupportFragmentInset<FragmentDetailsBinding>(R.layout.fr
         }
         viewBinding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
+        }
+
+        viewBinding.ivShare.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SEND).setType("text/plain")
+            intent.putExtra(Intent.EXTRA_TEXT, viewModel.getUri())
+            startActivity(
+                Intent.createChooser(intent, requireContext().getString(R.string.details_share))
+            )
         }
     }
 

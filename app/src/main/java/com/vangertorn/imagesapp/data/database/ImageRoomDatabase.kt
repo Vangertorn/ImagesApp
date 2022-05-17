@@ -10,7 +10,7 @@ import com.vangertorn.imagesapp.data.database.etity.ImageEntity
     entities = [ImageEntity::class],
     exportSchema = true
 )
-abstract class ImageRoomDatabase : RoomDatabase(){
+abstract class ImageRoomDatabase : RoomDatabase() {
 
     abstract fun imageDao(): ImageDao
 }
