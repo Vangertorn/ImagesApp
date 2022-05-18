@@ -2,11 +2,11 @@
 Native application for Android
 
 As a user we can:
-to see a list of cats images,
-to update a set of 10 images,
-to choose favorites and view only favorite images,
-to view details about each image 
-to share image through messengers
+* to see a list of cats images,
+* to update a set of 10 images,
+* to choose favorites and view only favorite images,
+* to view details about each image 
+* to share image through messengers
 
 ### Technology stack
 
