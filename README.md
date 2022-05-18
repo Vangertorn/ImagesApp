@@ -2,9 +2,9 @@
 Native application for Android
 ### Technology stack
 
-* Languge - Kotlin
-* Archutecture pattern - [MVVM] 
-* Archutecture components - [Jetpack](https://developer.android.com/jetpack/)
+* Language - Kotlin
+* Architecture pattern - [MVVM] 
+* Architecture components - [Jetpack](https://developer.android.com/jetpack/)
 * DI - [Dagger Hilt](https://dagger.dev/hilt/)
 * Code style - [ktlint](https://ktlint.github.io/)
 
