@@ -1,12 +1,12 @@
 package com.vangertorn.imagesapp.presentation.home.adapter
 
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.vangertorn.imagesapp.GlideApp
 import com.vangertorn.imagesapp.R
 import com.vangertorn.imagesapp.databinding.ItemImagesBinding
 import com.vangertorn.imagesapp.domain.model.ImageModel
+import com.vangertorn.imagesapp.util.extension.setCustomDrawable
 
 class ImageViewHolder(
     private val itemBinding: ItemImagesBinding,
@@ -28,11 +28,6 @@ class ImageViewHolder(
             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             .into(itemBinding.ivContent)
 
-        val drawable = if (item.isFavorite) {
-            AppCompatResources.getDrawable(itemView.context, R.drawable.ic_favorite_active)
-        } else {
-            AppCompatResources.getDrawable(itemView.context, R.drawable.ic_favorite_inactive)
-        }
-        itemBinding.ivFavorite.setImageDrawable(drawable)
+        itemBinding.ivFavorite.setCustomDrawable(item.isFavorite)
     }
 }

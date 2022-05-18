@@ -15,6 +15,7 @@ import com.vangertorn.imagesapp.presentation.home.adapter.ImageAdapter
 import com.vangertorn.imagesapp.util.SupportFragmentInset
 import com.vangertorn.imagesapp.util.extension.goneUnless
 import com.vangertorn.imagesapp.util.extension.launchWhenStarted
+import com.vangertorn.imagesapp.util.extension.setCustomDrawable
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.onEach
 
@@ -88,12 +89,9 @@ class HomeFragment : SupportFragmentInset<FragmentHomeBinding>(R.layout.fragment
 
     private fun onLoaded(images: List<ImageModel>, isShowFavorite: Boolean) {
         adapter.submitList(images)
-        val drawable = if (isShowFavorite) {
-            AppCompatResources.getDrawable(requireContext(), R.drawable.ic_favorite_active)
-        } else {
-            AppCompatResources.getDrawable(requireContext(), R.drawable.ic_favorite_inactive)
-        }
-        viewBinding.btnFavorites.setImageDrawable(drawable)
+        viewBinding.btnFavorites.setCustomDrawable(isShowFavorite)
+        val textId = if (isShowFavorite) R.string.home_show_favorite else R.string.home_show_images
+        viewBinding.toolbar.title = requireContext().getString(textId)
         viewBinding.progressBar.goneUnless(false)
         viewBinding.errorState.goneUnless(false)
         viewBinding.rvListImages.goneUnless(true)

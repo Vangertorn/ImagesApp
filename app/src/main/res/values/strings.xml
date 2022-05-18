@@ -15,4 +15,8 @@
     <string name="details_width">Width: %1$s</string>
     <string name="details_height">Height: %1$s</string>
     <string name="details_share">Share image via…</string>
+
+    //Home
+    <string name="home_show_favorite">List favorites</string>
+    <string name="home_show_images">List random images</string>
 </resources>
