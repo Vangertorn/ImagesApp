@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_splash" >
         <action
             android:id="@+id/toHome"
-            app:destination="@id/home" />
+            app:destination="@id/home"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/home"
@@ -27,5 +29,9 @@
         android:id="@+id/details"
         android:name="com.vangertorn.imagesapp.presentation.details.DetailsFragment"
         android:label="DetailsFragment"
-        tools:layout="@layout/fragment_details" />
+        tools:layout="@layout/fragment_details">
+        <argument
+            android:name="imageId"
+            app:argType="string" />
+    </fragment>
 </navigation>
