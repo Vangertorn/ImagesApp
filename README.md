@@ -1,10 +1,10 @@
 "# ImagesApp" 
 Native application for Android
 
-Android Studio Dolphin | 2021.3.1 Beta 1
-Android Gradle Plugin Version 7.3.0-beta01
-Gradle Version 7.5-rc-1
-Grale JDK Version 11.0.13
+Android Studio Dolphin | 2021.3.1 Beta 1,
+Android Gradle Plugin Version 7.3.0-beta01,
+Gradle Version 7.5-rc-1,
+Grale JDK Version 11.0.13.
 
 As a user we can:
 * to see a list of cats images,
